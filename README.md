@@ -301,3 +301,16 @@ struct FileOptions {
 }
 c.file(path: file_path)
 ```
+
+1. ### log
+   struct can be used to print information from handlers
+   #### methods:
+   - info
+   - error
+   - debug
+   - warn
+   - verbose
+
+```v
+  c.log.info(msg)
+```
