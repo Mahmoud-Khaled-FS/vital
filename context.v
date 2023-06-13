@@ -186,7 +186,7 @@ pub struct FileOptions {
 	path string [required]
 	start u64
 	stream bool
-	chunk int = 65536 
+	chunk int = 65536
 	require_range bool
 	range_exception Exception
 }
@@ -214,7 +214,7 @@ pub fn (mut c Context) file(options FileOptions) {
 	}
 	ext := os.file_ext(path)
 	f_size := os.file_size(path)
-	mime := mime.get_mime_type(ext[1..])
+	mime_type := mime.get_mime_type(ext[1..])
 	chunk_size := options.chunk
 	range_bytes_str := range_header.find_between('=', '-')
 	mut f := os.open(path) or { return }
@@ -226,7 +226,7 @@ pub fn (mut c Context) file(options FileOptions) {
 	response := 'HTTP/1.1 206 Partial Content\r\n' +
 		'Content-Range: bytes ${start}-${end - 1}/${f_size}\r\n' +
 		'Content-Length: ${end - start + 1}\r\n' + 'Accept-Ranges: bytes\r\n' +
-		'Content-Type: ${mime}\r\n\r\n'
+		'Content-Type: ${mime_type}\r\n\r\n'
 	c.conn.write(response.bytes()) or { panic(err) }
 	for {
 		if start + u64(chunk_size) >= end {

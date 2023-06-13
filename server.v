@@ -6,7 +6,6 @@ import time
 import io
 import os
 import net.urllib
-import context
 
 type Handler = fn (mut c Context) !
 
@@ -42,7 +41,7 @@ pub fn (mut app App) listen(port int) {
 }
 
 fn (mut app App) initialize_server(port int) {
-	app.server = net.listen_tcp(.ip6, '${app.host}:${port}') or { 
+	app.server = net.listen_tcp(.ip6, '${app.host}:${port}') or {
 		panic_gently('Unable to listen on TCP server. Port:${port} Host:${app.host} Code:${err.code()}')
 		}
 	lor_endpoint_list(app.endpoint_list)
@@ -64,15 +63,15 @@ fn (mut app App) server_handler(mut conn net.TcpConn) {
 		}
 	}
 	mut reader := io.new_buffered_reader(reader: conn)
-	defer { 
-		unsafe { 
+	defer {
+		unsafe {
 			reader.free()
 		}
 	}
 	req_http := http.parse_request(mut reader) or { return }
 	route := app.handle_request(&req_http)
 	request := new_request(req_http)
-	mut context := &Context{
+	mut ctx := &Context{
 		index: 0
 		request: request
 		conn: conn
@@ -82,8 +81,8 @@ fn (mut app App) server_handler(mut conn net.TcpConn) {
 			path: route.path
 		}
 	}
-	first_handler := route.handlers[context.index] or {return}
-	first_handler(mut context) or {context.app.handle_error(exception_from_error(err), mut context)}
+	first_handler := route.handlers[ctx.index] or {return}
+	first_handler(mut ctx) or {ctx.app.handle_error(exception_from_error(err), mut ctx)}
 }
 
 fn (mut app App) handle_request(req &http.Request) &Route {

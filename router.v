@@ -1,4 +1,4 @@
-module vital 
+module vital
 
 struct Endpoint {
 	path string
@@ -284,8 +284,9 @@ fn (mut router Router) get_route(path string, method Method) ?Route {
 	if !router.case_sensitive {
 		path_search = path_search.to_lower()
 	}
-	r := router.tree[method.str()].match_node(path_search)?
-	return r
+	mut r := router.tree[method.str()] or {return none}
+	return r.match_node(path_search)
+
 }
 
 fn (mut r Router) create_route(method Method, path string, handlers []Handler) {
@@ -334,7 +335,7 @@ fn (mut r Router) merge_router(mut router Router) {
 		root.travel_in_tree(fn [mut tree_root, router, mut r, method] (node &Node) {
 			if node.handlers.len > 0 {
 				// println()
-				path := if node.full_path == '/' {''} else { node.full_path } 
+				path := if node.full_path == '/' {''} else { node.full_path }
 				tree_root.add_route(router.root_path + '/' + path, node.handlers)
 				r.endpoint_list << Endpoint{method: method_from_str(method) or {Method.get}, path: router.root_path + '/' + path}
 				return
