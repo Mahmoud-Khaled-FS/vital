@@ -104,7 +104,7 @@ fn log_route(method string, path string) {
 	println("[Vital]	- ${date_now}		${method_for_log + " ".repeat(10)}${path}")
 }
 
-[noreturn]
+@[noreturn]
 fn panic_gently(msg string){
 	panic(color(msg,.r))
 }

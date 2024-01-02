@@ -4,8 +4,8 @@ import net.http
 
 pub struct Exception {
 	pub mut:
-	msg  string [json: 'message']
-	code int [json: 'status']
+	msg  string @[json: 'message']
+	code int @[json: 'status']
 }
 
 pub const (

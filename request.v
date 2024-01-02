@@ -15,12 +15,12 @@ pub:
 }
 
 fn new_request(req http.Request) &Request {
-	host := req.header.get(http.CommonHeader.host) or { '' }
+	req_host := req.header.get(http.CommonHeader.host) or { '' }
 	query_parsed := urllib.parse(req.url) or { urllib.URL{} }
 	query := query_parsed.query()
 	return &Request{
 		Request: req
-		host: host
+		host: req_host
 		query: query.to_map()
 		query_parsed: query
 	}

@@ -4,7 +4,7 @@ import time
 
 pub const version = '0.0.1'
 
-[params]
+@[params]
 pub struct App_Config {
 	case_sensitive bool
 	read_timeout time.Duration

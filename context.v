@@ -50,10 +50,10 @@ pub fn (c &Context) param(key string) string {
 	return  c.route.params[key]
 }
 
-[params]
+@[params]
 pub struct Cookie_options {
-	name        string    [required]
-	value       string    [required]
+	name        string    @[required]
+	value       string    @[required]
 	path        string = '/'
 	domain      string
 	max_age     int
@@ -180,10 +180,10 @@ pub fn (mut c Context) html(path string) {
 	c.send_response()
 }
 
-[params]
+@[params]
 pub struct FileOptions {
 	pub:
-	path string [required]
+	path string @[required]
 	start u64
 	stream bool
 	chunk int = 65536

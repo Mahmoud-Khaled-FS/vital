@@ -27,7 +27,7 @@ pub fn new_router(path string) Router {
 	}
 }
 
-[heap]
+@[heap]
 struct Node {
 	type_node NodeType = .static_node
 mut:

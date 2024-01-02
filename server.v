@@ -13,7 +13,7 @@ type Handlers = []Handler
 
 type ErrorHandler = fn (err Exception, mut c Context)
 
-struct App {
+pub struct App {
 	Router
 	read_timeout time.Duration = 30 * time.second
 	write_timeout time.Duration = 30 * time.second
